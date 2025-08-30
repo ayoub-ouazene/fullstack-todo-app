@@ -1,0 +1,406 @@
+openapi: 3.0.0
+info:
+  title: User and Task Management API
+  description: An API for managing users and their tasks, including user registration, login, and CRUD operations on tasks.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+  - url: http://127.0.0.1:5500/frontend/index.html
+    description: Front-end server
+
+tags:
+  - name: Users
+    description: Operations related to user management
+  - name: Tasks
+    description: Operations related to user tasks
+
+paths:
+  /api/users:
+    get:
+      tags:
+        - Users
+      summary: Get all users
+      description: Retrieves a list of all users from the database, excluding their passwords.
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '404':
+          description: No available users.
+        '400':
+          description: Bad request.
+    post:
+      tags:
+        - Users
+      summary: Add a new user (Sign up)
+      description: Creates a new user in the database. The password will be hashed before being stored.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: The user was successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+        '400':
+          description: Wrong or invalid data provided.
+    patch:
+      tags:
+        - Users
+      summary: Update a user's information
+      description: Updates the name and/or email of a user by their ID, which is provided in the request body.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: User updated successfully.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: updating user succefully
+        '400':
+          description: Invalid data provided.
+        '404':
+          description: User not found.
+
+  /api/users/login:
+    post:
+      tags:
+        - Users
+      summary: Log in a user
+      description: Authenticates a user with their email and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: Login successful.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: correct password
+        '403':
+          description: Invalid email or password.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Invalid email
+
+  /api/users/logout:
+    post:
+      tags:
+        - Users
+      summary: Log Out the user
+      description: Destroy the current session of the user and log out from the account.
+      responses:
+        '200':
+          description: Logout successful.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: destroy session succefully
+        '401':
+          description: Failed to destroy session
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Your session is not active.
+        '500':
+          description: Failed to destroy session
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Invalid operation
+
+  /api/users/{id}:
+    delete:
+      tags:
+        - Users
+      summary: Delete a user
+      description: Deletes a user from the database by their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to delete.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User deleted successfully.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: delete user succefully
+        '404':
+          description: User not found.
+
+  /api/tasks:
+    get:
+      tags:
+        - Tasks
+      summary: Get all tasks
+      description: Retrieves the list of all tasks.
+      responses:
+        '200':
+          description: Tasks retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+        '404':
+          description: No tasks found.
+    post:
+      tags:
+        - Tasks
+      summary: Add a new task
+      description: Adds a new task.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: Task added successfully.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: task added
+        '400':
+          description: Invalid task data.
+    delete:
+      tags:
+        - Tasks
+      summary: Delete a specific task or all tasks
+      description: Deletes a single task by its ID or all tasks if no task ID is provided.
+      parameters:
+        - name: taskId
+          in: query
+          required: false
+          description: The ID of the task to delete. If not provided, all tasks will be deleted.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Task(s) deleted successfully.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: deleting task successfully
+        '400':
+          description: Invalid query parameter.
+        '404':
+          description: Task not found.
+    patch:
+      tags:
+        - Tasks
+      summary: Modify a task
+      description: Updates the description or completion status of a specific task.
+      parameters:
+        - name: taskId
+          in: query
+          required: true
+          description: The ID of the task to modify.
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Task updated successfully.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: successful updating
+        '400':
+          description: Invalid data or query parameter.
+        '404':
+          description: Task not found.
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique ID of the user.
+          example: 1
+        name:
+          type: string
+          description: The name of the user.
+          example: John Doe
+        email:
+          type: string
+          description: The email of the user.
+          example: john.doe@example.com
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+      required:
+        - id
+        - name
+        - email
+    
+    UserCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the user.
+          example: Jane Doe
+        email:
+          type: string
+          description: The email of the user.
+          example: jane.doe@example.com
+        password:
+          type: string
+          format: password
+          description: The user's password.
+        tasks:
+          type: array
+          description: A list of tasks for the new user.
+          items:
+            $ref: '#/components/schemas/TaskCreate'
+          example: []
+      required:
+        - name
+        - email
+        - password
+        - tasks
+    
+    UserUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the user to update.
+          example: 1
+        name:
+          type: string
+          description: The new name of the user.
+          example: Jane D.
+        email:
+          type: string
+          description: The new email of the user.
+          example: jane.d@example.com
+      required:
+        - id
+    
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: The user's email for login.
+          example: john.doe@example.com
+        password:
+          type: string
+          format: password
+          description: The user's password for login.
+      required:
+        - email
+        - password
+
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique ID of the task.
+          example: 1
+        description:
+          type: string
+          description: The task description.
+          example: Buy groceries
+        done:
+          type: boolean
+          description: The completion status of the task.
+          example: false
+        date:
+          type: string
+          format: date-time
+          description: The date the task was created.
+      required:
+        - id
+        - description
+        - done
+        - date
+    
+    TaskCreate:
+      type: object
+      properties:
+        description:
+          type: string
+          description: The task description.
+          example: Go for a walk
+        done:
+          type: boolean
+          description: The completion status of the task.
+          example: false
+      required:
+        - description
+        - done
+        
+    TaskUpdate:
+      type: object
+      properties:
+        description:
+          type: string
+          description: The updated task description.
+          example: Go for a long walk
+        done:
+          type: boolean
+          description: The new completion status.
+          example: true
+      required:
+        - description
+        - done
