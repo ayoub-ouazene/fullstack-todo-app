@@ -1,0 +1,6 @@
+Dependencies
+**/node_modules
+
+Environment variables (this will ignore all .env files)
+**/.env
+
