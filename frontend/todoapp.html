@@ -7,7 +7,8 @@
     <meta name="Description" content="A dynamic and aesthetic To-Do List WebApp.">
 
     <!-- Google Font: Quick Sand -->
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">
+    <link  rel="stylesheet"  href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" >
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <!-- font awesome (https://fontawesome.com) for basic icons; source: https://cdnjs.com/libraries/font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
@@ -19,12 +20,12 @@
 
 </head>
 
-<body>
+<body id="body">
     <div id = "header">
         <div class="flexrow-container">
-            <div class="standard-theme theme-selector"></div>
-            <div class="light-theme theme-selector"></div>
-            <div class="darker-theme theme-selector"></div>
+            <div class="standard-theme theme-selector" id="standard-theme"></div>
+            <div class="light-theme theme-selector" id="light-theme"></div>
+            <div class="darker-theme theme-selector" id="darker-theme"></div>
         </div>
         <h1 id="title" style="color: rgb(44, 45, 37);">Just Work!<div id="border"></div></h1>
     </div>
@@ -62,6 +63,37 @@
         </ul>
       
     </div>
+    
+    <button class="chatbot-btn" id="chatbot-btn" aria-label="Open chatbot" > </button>
+    <div class="chat-container">
+
+        <header class="header">
+            <h3>ChatBot</h3>
+        </header>
+
+        <ul class="messages" id="messages">
+            
+           
+            <li class="Bot-message">
+               
+                <span class="material-symbols-outlined">smart_toy</span>
+                <p>hello there 👋 <br>How can I help you today ? </p>
+            </li>
+            
+        </ul>
+
+        <div class="chat-input">
+            <textarea  placeholder="enter a text ..." id="input-message" required></textarea>
+            <span id="send-btn" class="material-symbols-outlined">send</span>
+        </div>
+
+    </div>
+
+    <button class="logout" id="logout">
+         <p>Log out</p>
+         <span class="material-symbols-outlined">logout</span>
+    </button>
+
     <script src="JS/main.js" type="text/javascript"> </script>
 </body>
 </html>

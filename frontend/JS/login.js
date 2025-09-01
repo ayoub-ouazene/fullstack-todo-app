@@ -38,7 +38,8 @@ async function Login(event)
       if(res.ok)
       {
         console.log("valid password");
-        window.location.href = '/frontend/todoapp.html';
+        // window.location.href = '/frontend/todoapp.html';
+         window.location.href = 'http://localhost:3000/app';
       }
       else
       {
@@ -85,7 +86,8 @@ async function SignUp(event)
                        {
                           console.log("succefull sign in");
 
-                          window.location.href = "/frontend/todoapp.html"
+                          // window.location.href = "/frontend/todoapp.html";
+                            window.location.href = 'http://localhost:3000/app';
                        }
                        else
                        {

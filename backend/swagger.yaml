@@ -15,6 +15,8 @@ tags:
     description: Operations related to user management
   - name: Tasks
     description: Operations related to user tasks
+  - name: Chatbot
+    description: Operations for the todo assistant chatbot
 
 paths:
   /api/users:
@@ -262,6 +264,52 @@ paths:
           description: Invalid data or query parameter.
         '404':
           description: Task not found.
+
+  /api/chatbot:
+    post:
+      tags:
+        - Chatbot
+      summary: Get advice from the todo app assistant
+      description: Sends a message to the AI assistant to get advice on time management and productivity.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: The message or question for the AI assistant.
+                  example: "How can I better manage my time?"
+              required:
+                - message
+      responses:
+        '200':
+          description: The AI assistant's response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  botResponse:
+                    type: string
+                    description: The helpful advice from the chatbot.
+                    example: "To manage your time effectively, try using the Pomodoro Technique..."
+        '400':
+          description: Bad request. No message was provided.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: no message was provided
+        '500':
+          description: Internal server error.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Failed to get a response from the AI.
 
 components:
   schemas:

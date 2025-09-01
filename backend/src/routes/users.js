@@ -165,6 +165,7 @@ router.post('/login', async (req, res) => {
   
   const user = await User.findOne({
     email : req.body.email
+    
   });
 
 
@@ -195,7 +196,6 @@ router.post('/login', async (req, res) => {
 // destroy session -- log out
 
 router.post('/logout', 
-    validateUser, 
     (req, res) => {
         req.session.destroy(err => {
             if (err) {
