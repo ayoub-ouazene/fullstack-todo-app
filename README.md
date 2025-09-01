@@ -1,7 +1,7 @@
-Productive Task Manager
+# Productive Task Manager
 This is a full-stack, a web application designed to help you manage your tasks and boost your productivity. The app combines a modern, responsive front-end with a robust back-end, offering a seamless user experience.
 
-Features
+# Features
 Full-Stack To-Do App: A complete task management system where you can add new tasks, mark them as completed, and delete them from your list. All changes are saved in a database for persistence.
 
 Secure Authentication: Users can securely sign up and log in to the application. Authentication is managed using sessions and cookies, ensuring a personalized and secure experience.
@@ -14,7 +14,7 @@ Integrated Chatbot Assistant: A powerful chatbot is integrated into the applicat
 
 API Documentation: The backend API is fully documented using Swagger, making it easy for other developers to understand and interact with the server's endpoints.
 
-Technologies
+# Technologies
 Frontend
 HTML5
 
@@ -33,7 +33,7 @@ Mongoose: An Object Data Modeling (ODM) library for MongoDB and Node.js.
 
 Swagger: For API documentation.
 
-How to Run the Application
+# How to Run the Application
 To get a copy of this project up and running on your local machine, follow these steps:
 
 Prerequisites
@@ -46,8 +46,8 @@ MongoDB
 Installation
 Clone the repository:
 
-git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-cd your-repo-name
+git clone https://github.com/ayoub-ouazene/fullstack-todo-app.git
+cd fullstack-todo-app
 
 Install the backend dependencies:
 
